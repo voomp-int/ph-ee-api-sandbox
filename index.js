@@ -1,18 +1,12 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const routes = require("./route");
 const CONFIG = require("./config/index");
 const mongodb = require("./mongodb");
 
 const app = express();
 
-// Body Parser middleware
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Routes;
 app.use("/channel", routes);

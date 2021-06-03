@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require("uuid");
  */
 async function createBulkTransfer(req, res) {
   try {
-    const { request_id, note, purpose } = req.body;
+    const { purpose, note, request_id, purpose } = req.body;
     const model = await new SingleModel({
       request_id: request_id,
       batch_id: uuidv4(),
