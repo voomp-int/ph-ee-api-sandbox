@@ -1,4 +1,5 @@
 const { SingleModel } = require("../model.schema");
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Create Bulk Transfer
@@ -7,10 +8,10 @@ const { SingleModel } = require("../model.schema");
  */
 async function createBulkTransfer(req, res) {
   try {
-    const { request_id, batch_id, note, purpose } = req.body;
+    const { request_id, note, purpose } = req.body;
     const model = await new SingleModel({
       request_id: request_id,
-      batch_id: batch_id,
+      batch_id: uuidv4(),
       note: note,
       status: "queued",
       purpose: purpose,
