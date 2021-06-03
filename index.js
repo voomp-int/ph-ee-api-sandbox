@@ -1,10 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const cors = require("cors");
 const routes = require("./route");
-
 const CONFIG = require("./config/index");
-// const logger = require("./utils/logger");
 const mongodb = require("./mongodb");
 
 const app = express();
@@ -16,9 +13,6 @@ app.use(
     extended: true,
   })
 );
-
-// Cors
-// app.use(cors());
 
 // Routes;
 app.use("/channel", routes);

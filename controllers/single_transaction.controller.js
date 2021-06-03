@@ -48,7 +48,6 @@ async function getTransactionStatus(req, res) {
       });
       return;
     }
-    console.log(typeof transaction);
     const x = await SingleModel.find(req.query);
     res.status(200).send(x);
     return;
