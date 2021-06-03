@@ -5,19 +5,15 @@ const CONSTANTS = require("./config/constants");
 const singleSchema = new Schema({
   request_id: {
     type: String,
-    required: true,
   },
   account_number: {
     type: String,
-    required: true,
   },
   amount: {
     type: Number,
-    required: true,
   },
   currency: {
     type: String,
-    required: true,
   },
   note: {
     type: String,
@@ -34,6 +30,9 @@ const singleSchema = new Schema({
   batch_id: {
     type: String,
     default: null,
+  },
+  purpose: {
+    type: String,
   },
   failure_reason: {
     type: String,

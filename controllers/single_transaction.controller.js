@@ -39,20 +39,18 @@ async function createTransfer(req, res) {
  */
 async function getTransactionStatus(req, res) {
   try {
-    const transaction = await SingleModel.findOneAndUpdate(
-      req.query,
-      {
-        status: "Finished",
-      },
-      { new: true }
-    );
+    const transaction = await SingleModel.updateMany(req.query, {
+      status: "Finished",
+    });
     if (transaction == undefined || null) {
       res.status(404).send({
         message: "Transaction not found",
       });
       return;
     }
-    res.status(200).send(transaction);
+    console.log(typeof transaction);
+    const x = await SingleModel.find(req.query);
+    res.status(200).send(x);
     return;
   } catch (error) {
     console.log("Error in creating a transfer: " + error);
