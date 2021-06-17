@@ -15,7 +15,6 @@ async function createBulkTransfer(req, res) {
       note: note,
       status: "queued",
       purpose: purpose,
-      mode: req.params.mode,
       created_at: Date.now(),
     }).save();
 
