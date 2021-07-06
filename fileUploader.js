@@ -58,7 +58,7 @@ const fileUploader = async (req, res) => {
         total: total,
         failed: fail,
         successful: total - fail,
-        file: data.location,
+        file: data.Location,
       }
     );
   });
