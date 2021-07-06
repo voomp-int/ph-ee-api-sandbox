@@ -63,7 +63,17 @@ async function createBulkTransfer(req, res) {
  */
 async function getBulkTransactionStatus(req, res) {
   try {
-    const transaction = await BulkModel.findOne(req.query);
+    
+    const transaction;
+    
+    if (req.query.detailed) {
+      delete req.query.detailed;
+      transaction = await BulkModel.findOne(req.query);
+    } else {
+      delete req.query.detailed;
+      transaction = await BulkModel.findOne(req.query).select('-file');
+    }
+    
     if (transaction == null || undefined) {
       res.status(400).send({
         message: "Transaction not found",
@@ -74,26 +84,14 @@ async function getBulkTransactionStatus(req, res) {
       batch_id: transaction["batch_id"],
     });
 
-    const total = single_transaction.length;
-    var fail = 0;
-    single_transaction.forEach((element) => {
-      if (element.failure_reason != null) {
-        fail++;
-      }
-    });
-    transaction.total = total;
-    transaction.failed = fail;
-    transaction.successful = total - fail;
-    await transaction.save();
-
     res.status(200).send(transaction);
 
-    // if (req.query.detailed == true) {
-    //   res.status(200).send(transaction);
-    // } else {
-    //   delete transaction.file;
-    //   res.status(200).send(transaction);
-    // }
+    if (req.query.detailed == true) {
+       res.status(200).send(transaction);
+     } else {
+       delete transaction.file;
+      res.status(200).send(transaction);
+    }
     return;
   } catch (error) {
     console.log("Error in fetching bulk transfer: " + error);
