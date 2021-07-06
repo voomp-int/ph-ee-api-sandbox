@@ -64,12 +64,12 @@ async function createBulkTransfer(req, res) {
 async function getBulkTransactionStatus(req, res) {
   try {
     
-    if (req.query.detailed) {
+    if (req.query.detailed && req.query.detailed === true) {
       delete req.query.detailed;
-      const transaction = await BulkModel.findOne(req.query);
+      var transaction = await BulkModel.findOne(req.query);
     } else {
       delete req.query.detailed;
-      const transaction = await BulkModel.findOne(req.query).select('-file');
+      var transaction = await BulkModel.findOne(req.query).select('-file');
     }
     
     if (transaction == null || undefined) {
