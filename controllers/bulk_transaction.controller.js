@@ -85,13 +85,6 @@ async function getBulkTransactionStatus(req, res) {
     });
 
     res.status(200).send(transaction);
-
-    if (req.query.detailed == true) {
-       res.status(200).send(transaction);
-     } else {
-       delete transaction.file;
-      res.status(200).send(transaction);
-    }
     return;
   } catch (error) {
     console.log("Error in fetching bulk transfer: " + error);
