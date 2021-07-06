@@ -64,14 +64,12 @@ async function createBulkTransfer(req, res) {
 async function getBulkTransactionStatus(req, res) {
   try {
     
-    const transaction;
-    
     if (req.query.detailed) {
       delete req.query.detailed;
-      transaction = await BulkModel.findOne(req.query);
+      const transaction = await BulkModel.findOne(req.query);
     } else {
       delete req.query.detailed;
-      transaction = await BulkModel.findOne(req.query).select('-file');
+      const transaction = await BulkModel.findOne(req.query).select('-file');
     }
     
     if (transaction == null || undefined) {
@@ -83,6 +81,18 @@ async function getBulkTransactionStatus(req, res) {
     const single_transaction = await SingleModel.find({
       batch_id: transaction["batch_id"],
     });
+    
+    const total = single_transaction.length;
+    var fail = 0;
+    single_transaction.forEach((element) => {
+      if (element.failure_reason != null) {
+        fail++;
+      }
+    });
+    transaction.total = total;
+    transaction.failed = fail;
+    transaction.successful = total - fail;
+    await transaction.save();
 
     res.status(200).send(transaction);
     return;
